@@ -1,15 +1,6 @@
 var turn = 0;
-var call = 0;
-
-
-function attachListeners() {
-  $("td").on("click", function() {
-    doTurn($(this).attr('data-x'), $(this).attr('data-y'), $(this))
-  })
-}
 
 function doTurn(x, y, bu) {
-  call += 0
   updateState(x, y, bu);
   checkWinner();
   turn += 1
@@ -29,12 +20,9 @@ function updateState(x, y, bu) {
   return tmp 
 }
 
-$(function () {
-  attachListeners()
-});
-
-
 function message(string) {
+  turn = 0
+  $('td').text("")
   $("#message").html(string);
 }
 
@@ -63,7 +51,22 @@ function checkWinner() {
     } else if (tmpo === 3) {
       message("Player O Won!") 
       return;
+    } else if (turn === 8) {
+      message("Tie game") 
+      return;
     }
   }
   return false;
 }
+
+function attachListeners() {
+  $("td").on("click", function() {
+    if ($(this).text() === "") {
+      doTurn($(this).attr('data-x'), $(this).attr('data-y'), $(this))
+    }
+  })
+}
+
+$(function () {
+  attachListeners()
+});
